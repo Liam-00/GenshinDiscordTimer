@@ -1,7 +1,10 @@
 {
     "compilerOptions": {
         "outDir": "./",
-        "target": "ES6"
+        "target": "ES6",
+        "moduleResolution": "node",
+        "rootDir": "./src"
     },
-    "files": ["./src/index.ts"]
+    "include": ["./src/*"],
+    "exclude": []
 }
