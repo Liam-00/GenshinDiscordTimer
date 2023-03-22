@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "./",
-        "target": "ES6",
+        "target": "es2017",
         "moduleResolution": "node",
         "rootDir": "./src"
     },
