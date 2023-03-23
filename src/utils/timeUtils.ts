@@ -1,11 +1,8 @@
 import type { GenshinEvent } from "../types/GenshinEvent";
+import type { TimeLeft } from "../types/TimeLeft"
 
-interface roundedTimeLeft {
-    days: number;
-    hours: number;
-}
 
-const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:number = 0):roundedTimeLeft => {
+const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:number = 0):TimeLeft => {
     let end:Date;
     if (realtime) {
         end = new Date(event.dateEnd)
