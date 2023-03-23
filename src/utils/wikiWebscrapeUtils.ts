@@ -1,5 +1,5 @@
 import { parse } from 'node-html-parser'
-import type { GenshinEvent } from './GenshinEvent.js'
+import type { GenshinEvent } from './types/GenshinEvent.js'
 
 const scrapeAndParseEvents = async ():Promise<GenshinEvent[]> => {
     let events:GenshinEvent[] = []
