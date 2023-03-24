@@ -39,7 +39,7 @@ const createEventMessage = (event:GenshinEvent):string => {
         `${event_title_buffer}\n` +
         `${event_title}\n` + 
         `> ${event_timeLeft}\n` + 
-        `> ${event_timeline}\n\b`
+        `> ${event_timeline}\n`
 }
 
 export { createEventMessage }
