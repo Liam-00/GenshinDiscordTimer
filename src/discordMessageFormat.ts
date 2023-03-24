@@ -17,7 +17,7 @@ const createEventMessage = (event:GenshinEvent):string => {
 
     //get remaining event time and format it
     let timeleft = timeRemaining(event)
-    let event_timeLeft = `**${timeleft.days}** *days*  **${timeleft.hours}** *hrs* remaining`
+    let event_timeLeft = `_\`${timeleft.days} days ${timeleft.hours} hrs remaining\`_`
     
     //formatted strings for event dates
     let eventstart = new Date(event.dateStart).toDateString()
