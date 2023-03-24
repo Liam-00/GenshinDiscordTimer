@@ -1,4 +1,5 @@
 import type { GenshinEvent } from "../types/GenshinEvent";
+import type { ReminderConfig } from "../types/ReminderConfig";
 import type { TimeLeft } from "../types/TimeLeft"
 
 
@@ -24,4 +25,21 @@ const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:nu
     }
 }
 
-export { timeRemaining }
+const timeForReminder = (event:GenshinEvent, config:ReminderConfig):boolean => {
+    let callReminder:boolean = config.reminderDays.reduce((status, val) => {
+        if (timeRemaining(event).days === val) {
+            return true
+        } else if (status === true) {
+            return true
+        } else {
+            return false
+        }
+    },
+    false
+    )
+
+    return callReminder
+}
+
+
+export { timeRemaining, timeForReminder }
