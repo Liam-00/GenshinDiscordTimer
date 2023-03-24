@@ -9,7 +9,7 @@ const createEventMessage = (event:GenshinEvent):DiscordEmbed => {
 
     //get remaining event time and format it
     let timeleft = timeRemaining(event)
-    let event_timeLeft = `**${timeleft.days}** _days_ **${timeleft.hours}** _hrs_`
+    let event_timeLeft = `\`\`\`${timeleft.days} days ${timeleft.hours} hrs\`\`\``
     
     //formatted strings for event dates
     let eventstart = new Date(event.dateStart).toDateString()
@@ -31,12 +31,12 @@ const createEventMessage = (event:GenshinEvent):DiscordEmbed => {
         color: `16777215`,
         fields: [
             {
-                name: `__Time Left__:`,
+                name: `T i m e   L e f t :`,
                 value: `${event_timeLeft}`,
                 inline: false
             },
             {
-                name: `__Event Timeline__:`,
+                name: `E v e n t   T i m e l i n e :`,
                 value: `${event_timeline}`,
                 inline: false
             }
