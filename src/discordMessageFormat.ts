@@ -1,23 +1,15 @@
-import type { GenshinEvent } from "./types/GenshinEvent.js";
+import type { GenshinEvent } from "./types/GenshinEvent";
+import type { DiscordEmbed } from "./types/DiscordEmbed";
 import { timeRemaining } from "./utils/timeUtils.js";
 
-/*message template
-----------------------
-**Fungus Mechanicus:**
-----------------------
-> **10** *days* **2** *hrs* remaining
-> ```Thu Mar 23 2023 -----[-]----- Mon Apr 03 2023```
 
-*/
-
-
-const createEventMessage = (event:GenshinEvent):string => {
+const createEventMessage = (event:GenshinEvent):DiscordEmbed => {
     let event_title_buffer = '\\_'.repeat(50)
     let event_title = `**${event.name}:**`
 
     //get remaining event time and format it
     let timeleft = timeRemaining(event)
-    let event_timeLeft = `_\`${timeleft.days} days ${timeleft.hours} hrs remaining\`_`
+    let event_timeLeft = `**${timeleft.days}** _days_ **${timeleft.hours}** _hrs_`
     
     //formatted strings for event dates
     let eventstart = new Date(event.dateStart).toDateString()
@@ -32,14 +24,33 @@ const createEventMessage = (event:GenshinEvent):string => {
         '[-]' + 
         '-'.repeat(event_days_ahead)
 
-    
     let event_timeline = `\`\`\`${eventstart} ${event_timeline_bar} ${eventend}\`\`\``
 
-    return `` +
+    let embed = {
+        title: `${event.name}`,
+        color: `16777215`,
+        fields: [
+            {
+                name: `__Time Left__:`,
+                value: `${event_timeLeft}`,
+                inline: false
+            },
+            {
+                name: `__Event Timeline__:`,
+                value: `${event_timeline}`,
+                inline: false
+            }
+        ]
+    }
+
+    return embed
+
+    /*return `` +
         `${event_title_buffer}\n` +
         `${event_title}\n` + 
         `> ${event_timeLeft}\n` + 
         `> ${event_timeline}\n`
+    */
 }
 
 export { createEventMessage }

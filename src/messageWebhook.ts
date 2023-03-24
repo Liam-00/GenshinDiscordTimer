@@ -1,14 +1,15 @@
 import * as dotenv from 'dotenv'
+import { DiscordEmbed } from './types/DiscordEmbed'
 dotenv.config()
 
-const messageWebhook = async (input:string):Promise<boolean> => {
+const messageWebhook = async (input:DiscordEmbed[]):Promise<boolean> => {
     try{
         let response = await fetch(
             process.env.WEBHOOK_URL + "?wait=true",
             {
                 method: "POST",
                 body: JSON.stringify({
-                    content: input
+                    embeds: input
                 }),
                 headers: {
                     'Content-Type': 'application/json',
