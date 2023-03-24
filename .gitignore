@@ -1,1 +1,3 @@
-index.js
+*.js
+.env
+node_modules/
