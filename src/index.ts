@@ -17,13 +17,13 @@ const msg = async () => {
     eventlist.push(getSpiralAbyssEvent())
 
     //init blank message
-    let message = ''
+    let embeds = []
     //init reminder check
     let performReminder: boolean = false;
 
     //build message and check if today is a reminder day for any events
     eventlist.forEach(event => {
-        message += createEventMessage(event)
+        embeds.push(createEventMessage(event)) 
         if (timeForReminder(event, reminderConf)) {
             performReminder = true;
         }
@@ -31,7 +31,7 @@ const msg = async () => {
 
     //if reminder day, send message
     if (performReminder) {
-        messageWebhook(message)
+        messageWebhook(embeds)
     }
 }
 
