@@ -44,4 +44,49 @@ const scrapeAndParseEvents = async ():Promise<GenshinEvent[]> => {
     }
 }
 
-export { scrapeAndParseEvents }
+const getSpiralAbyssEvent = (realtime:boolean = false, modifier:number = 0):GenshinEvent => {
+
+    //setup info on current time and date
+    let time_now = new Date()
+    let time_currentDay = time_now.getDate()
+    let time_currentMonth = time_now.getMonth()
+    let time_currentYear = time_now.getFullYear()
+
+    //when current date is after 16th, the start date is set to first of next month
+    let passedMidMonth = time_currentDay >= 16 ? true : false
+    
+    let event_startMonthDate = new Date(
+        time_currentYear,
+        passedMidMonth ? time_currentMonth + 1 : time_currentMonth,
+        1
+    )
+    
+    //mid month date will always be 16th of current month
+    let event_midMonthDate = new Date(
+        time_currentYear,
+        time_currentMonth,
+        16
+    )
+
+    //create event object
+    let event = {
+        name: "Spiral Abyss",
+        dateStart: 1,
+        dateEnd: 1
+    }
+
+    //set dates on event
+    if (passedMidMonth) {
+        event.dateStart = event_midMonthDate.getTime()
+        event.dateEnd = event_startMonthDate.getTime()
+    } else {
+        event.dateStart = event_startMonthDate.getTime()
+        event.dateEnd = event_midMonthDate.getTime()
+    }
+
+
+    return event
+} 
+
+
+export { scrapeAndParseEvents, getSpiralAbyssEvent }
