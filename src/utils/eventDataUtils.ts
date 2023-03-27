@@ -1,5 +1,6 @@
 import { parse } from 'node-html-parser'
 import type { GenshinEvent } from '../types/GenshinEvent.js'
+import { timeRemaining } from '../timeUtils.js'
 
 const scrapeAndParseEvents = async ():Promise<GenshinEvent[]> => {
     let events:GenshinEvent[] = []
@@ -32,7 +33,10 @@ const scrapeAndParseEvents = async ():Promise<GenshinEvent[]> => {
                     dateStart: event_startDate,
                     dateEnd: event_endDate
                 }
-                events.push(event)
+                if (timeRemaining(event).hours > 0) {
+                    events.push(event)
+                }
+                
             }
             
         })
