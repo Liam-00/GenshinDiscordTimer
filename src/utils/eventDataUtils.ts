@@ -15,10 +15,10 @@ const scrapeAndParseEvents = async ():Promise<GenshinEvent[]> => {
         //query for rows in first tbody, then process through children
         events_tableHtml.querySelectorAll("tbody tr").forEach(item => {
             //find which rows are tagged In-Game events
-            if (item.childNodes[2].innerText === 'In-Game') {
+            if (item.childNodes[2].innerText.includes('In-Game')) {
                 
                 //get data for event date
-                let event_dateData:string[] = item.childNodes[1].innerText.split(/ \W /)
+                let event_dateData:string[] = item.childNodes[1].innerText.split(/ &ndash; /)
                 
                 //get length of tabledata element that contains the event name
                 //then use it to select last child of that tabledata
