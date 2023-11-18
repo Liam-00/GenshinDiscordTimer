@@ -11,8 +11,8 @@
 
 import {Client, GatewayIntentBits} from 'discord.js'
 import 'dotenv/config'
-import { createBotUserRole, getBotUserRoleFromGuild } from './utils/botUserRoleUtils'
-import { createBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils'
+import { createBotUserRole, getBotUserRoleFromGuild } from './utils/botUserRoleUtils.js'
+import { createBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils.js'
 
 
 let client = new Client({intents: GatewayIntentBits.Guilds})

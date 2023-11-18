@@ -1,5 +1,5 @@
-import { getBotSettings } from "./botSettingUtils"
-import { getGuild } from "./botGuildUtils"
+import { getBotSettings } from "./botSettingUtils.js"
+import { getGuild } from "./botGuildUtils.js"
 
 import type {Client, Role} from 'discord.js'
  

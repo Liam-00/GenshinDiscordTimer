@@ -1,5 +1,5 @@
 import fs from 'fs'
-import type { BotSettings } from '../types/BotSettings'
+import type { BotSettings } from '../types/BotSettings.js'
 
 
 
