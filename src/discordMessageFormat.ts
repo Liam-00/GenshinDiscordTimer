@@ -1,9 +1,9 @@
-import type { GenshinEvent } from "./types/GenshinEvent";
-import type { DiscordEmbed } from "./types/DiscordEmbed";
+import type { GenshinEvent } from "./types/GenshinEvent.js";
+import type { EmbedData } from "discord.js";
 import { timeRemaining } from "./utils/timeUtils.js";
 
 
-const createEventMessage = (event:GenshinEvent):DiscordEmbed => {
+const createEventMessage = (event: GenshinEvent): EmbedData => {
     let event_title_buffer = '\\_'.repeat(50)
     let event_title = `**${event.name}:**`
 
@@ -25,10 +25,11 @@ const createEventMessage = (event:GenshinEvent):DiscordEmbed => {
         '-'.repeat(event_days_ahead)
 
     let event_timeline = `\`\`\`${eventstart} ${event_timeline_bar} ${eventend}\`\`\``
-
-    let embed = {
-        title: `${event.name}`,
-        color: `16777215`,
+    
+    //assemble data in an embed
+    let embed: EmbedData = {
+        title: event.name,
+        color: 16777215,
         fields: [
             {
                 name: `T i m e   L e f t :`,
@@ -44,13 +45,7 @@ const createEventMessage = (event:GenshinEvent):DiscordEmbed => {
     }
 
     return embed
-
-    /*return `` +
-        `${event_title_buffer}\n` +
-        `${event_title}\n` + 
-        `> ${event_timeLeft}\n` + 
-        `> ${event_timeline}\n`
-    */
 }
+
 
 export { createEventMessage }
