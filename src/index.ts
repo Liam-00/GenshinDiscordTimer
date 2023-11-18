@@ -10,21 +10,30 @@
 
 
 import {Client, GatewayIntentBits} from 'discord.js'
-import 'dotenv/config'
+
+import dotenv from 'dotenv'
+let path_dotenv = new URL('./.env', import.meta.url)
+dotenv.config({
+    path: path_dotenv.pathname
+})
+
 import { createBotUserRole, getBotUserRoleFromGuild } from './utils/botUserRoleUtils.js'
 import { createBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils.js'
 
-
+//create discordjs client
 let client = new Client({intents: GatewayIntentBits.Guilds})
 
+//define onready callback - main function of bot
 client.on('ready', async () => {
     console.log(`Bot is ready ${client.user?.tag}`)
 
+    //ensure user role exists
     let bot_user_role = getBotUserRoleFromGuild(client)
     if (!bot_user_role) {
         bot_user_role = await createBotUserRole(client)
     }
 
+    //ensure bot channel exists
     let bot_channel = getBotChannelFromGuild(client)
     if (!bot_channel) {
         bot_channel = await createBotChannel(client, bot_user_role)
