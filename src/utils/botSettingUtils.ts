@@ -4,7 +4,13 @@ import type { BotSettings } from '../types/BotSettings.js'
 
 
 const getBotSettings = () => { 
-    let data = fs.readFileSync('./bot_config.json', {encoding: "utf-8"})
+
+    let file_absolute_path = new URL('../../bot_config.json', import.meta.url)
+
+    console.log(file_absolute_path)
+    
+    let data = fs.readFileSync(file_absolute_path, {encoding: "utf-8"})
+
     let settings_object: BotSettings = JSON.parse(data)
 
     //enforce channel naming rules
