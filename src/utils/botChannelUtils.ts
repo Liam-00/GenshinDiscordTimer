@@ -1,4 +1,5 @@
-import {Client, Channel, Role, OverwriteResolvable, ChannelType} from 'discord.js'
+import type {Client, Channel, Role, OverwriteResolvable} from 'discord.js'
+import {ChannelType} from 'discord.js'
 
 import { getBotSettings } from './botSettingUtils'
 import { getGuild } from './botGuildUtils'
