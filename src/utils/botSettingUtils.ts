@@ -16,3 +16,5 @@ const getBotSettings = () => {
 
     return settings_object
 }
+
+export {getBotSettings}
