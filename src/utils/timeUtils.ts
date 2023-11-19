@@ -3,7 +3,7 @@ import type { TimeLeft } from "../types/TimeLeft.js"
 
 
 const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:number = 0):TimeLeft => {
-    let end:Date;
+    let end: Date;
     if (realtime) {
         end = new Date(event.dateEnd)
         end.setHours(4 + modifier,0,0,0)
@@ -14,10 +14,9 @@ const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:nu
     }
 
     let timeRemaining_ms:number = end.getTime() - Date.now()
-    let timeRemaining_hrs_exact:number = timeRemaining_ms / (1000 * 60 * 60 * 24)
-    let timeRemaining_days:number = Math.floor(timeRemaining_hrs_exact)
-    let timeRemaining_hrs:number = Math.floor((timeRemaining_hrs_exact - timeRemaining_days)  * 24)
- 
+    let timeRemaining_days_exact:number = timeRemaining_ms / (1000 * 60 * 60 * 24)
+    let timeRemaining_days:number = Math.floor(timeRemaining_days_exact)
+    let timeRemaining_hrs:number = Math.floor((timeRemaining_days_exact - timeRemaining_days)  * 24)
     return {
         days: timeRemaining_days,
         hours: timeRemaining_hrs
