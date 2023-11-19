@@ -12,10 +12,11 @@
 import {Client, GatewayIntentBits} from 'discord.js'
 
 import dotenv from 'dotenv'
-let path_dotenv = new URL('./.env', import.meta.url)
-dotenv.config({
+let path_dotenv = new URL('../.env', import.meta.url)
+let dot = dotenv.config({
     path: path_dotenv.pathname
 })
+
 
 import { createBotUserRole, getBotUserRoleFromGuild } from './utils/botUserRoleUtils.js'
 import { createBotChannel, deleteBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils.js'
@@ -41,9 +42,12 @@ client.on('ready', async () => {
     }
 
     //ensure bot channel exists
+    let channel_just_created = false
+
     let bot_channel = getBotChannelFromGuild(client)
     if (!bot_channel) {
         bot_channel = await createBotChannel(client, bot_user_role)
+        channel_just_created = true
     }
  
     //create list of current events
@@ -67,8 +71,11 @@ client.on('ready', async () => {
     //clear channel
     //the existing channel's position is kept. Then we delete the channel and recreate it at the same position
     let position = bot_channel.position
-    await deleteBotChannel(client)
-    await createBotChannel(client, bot_user_role, position)
+    
+    if (!channel_just_created){
+        await deleteBotChannel(client)
+        await createBotChannel(client, bot_user_role, position)
+    }
 
     //send new event embeds
     await sendMessageToBotChannel(client, embeds)
