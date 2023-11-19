@@ -1,6 +1,5 @@
-import type { GenshinEvent } from "../types/GenshinEvent";
-import type { ReminderConfig } from "../types/ReminderConfig";
-import type { TimeLeft } from "../types/TimeLeft"
+import type { GenshinEvent } from "../types/GenshinEvent.js";
+import type { TimeLeft } from "../types/TimeLeft.js"
 
 
 const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:number = 0):TimeLeft => {
@@ -25,8 +24,8 @@ const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:nu
     }
 }
 
-const timeForReminder = (event:GenshinEvent, config:ReminderConfig):boolean => {
-    let callReminder:boolean = config.reminderDays.reduce((status, val) => {
+const timeForReminder = (event:GenshinEvent, daysLeftForReminder:number[]):boolean => {
+    let callReminder:boolean = daysLeftForReminder.reduce((status, val) => {
         if (timeRemaining(event).days === val) {
             return true
         } else if (status === true) {
