@@ -1,4 +1,4 @@
-import type {Client, Channel, Role, OverwriteResolvable, TextChannel} from 'discord.js'
+import type {Client, Channel, Role, OverwriteResolvable, TextChannel, GuildBasedChannel} from 'discord.js'
 import {ChannelType} from 'discord.js'
 
 import { getBotSettings } from './botSettingUtils.js'
@@ -25,7 +25,7 @@ const getBotChannelFromGuild = (client: Client): TextChannel | null => {
     return null
 }
 
-const createBotChannel = async (client: Client, bot_user_role?: Role) => {
+const createBotChannel = async (client: Client, bot_user_role?: Role, position?: number) => {
     let guild = getGuild(client)
     
     let guild_channel_manager = guild.channels
@@ -51,10 +51,19 @@ const createBotChannel = async (client: Client, bot_user_role?: Role) => {
         {
             type: ChannelType.GuildText,
             name: bot_settings.bot_channel_name,
-            permissionOverwrites: [...channel_permissionOverwrites]
+            permissionOverwrites: [...channel_permissionOverwrites],
+            position: position
         })
     
     return bot_channel
 }
 
-export { getBotChannelFromGuild, createBotChannel }
+const deleteBotChannel = async (client: Client) => {
+    let bot_channel = getBotChannelFromGuild(client)
+
+    let guild = getGuild(client)
+
+    await guild.channels.delete(bot_channel as GuildBasedChannel)
+}
+
+export { getBotChannelFromGuild, createBotChannel, deleteBotChannel }
