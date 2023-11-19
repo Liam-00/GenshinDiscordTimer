@@ -32,11 +32,16 @@ const createBotChannel = async (client: Client, bot_user_role?: Role, position?:
 
     let bot_settings = getBotSettings()
 
+    
 
     let channel_permissionOverwrites: OverwriteResolvable[] = [
         {
             id: guild.roles.everyone,
             deny: ["ViewChannel"]
+        },
+        {
+            id: guild.client.user.id,
+            allow:["ViewChannel"]
         }
     ]
 
