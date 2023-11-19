@@ -18,7 +18,12 @@ dotenv.config({
 })
 
 import { createBotUserRole, getBotUserRoleFromGuild } from './utils/botUserRoleUtils.js'
-import { createBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils.js'
+import { createBotChannel, deleteBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils.js'
+import { getSpiralAbyssEvent, scrapeAndParseEvents } from './utils/eventDataUtils.js'
+import { createEventMessage } from './discordMessageFormat.js'
+import { timeForReminder } from './utils/timeUtils.js'
+import { getBotSettings } from './utils/botSettingUtils.js'
+import { sendMessageToBotChannel } from './utils/botMessageUtils.js'
 
 //create discordjs client
 let client = new Client({intents: GatewayIntentBits.Guilds})
@@ -26,6 +31,8 @@ let client = new Client({intents: GatewayIntentBits.Guilds})
 //define onready callback - main function of bot
 client.on('ready', async () => {
     console.log(`Bot is ready ${client.user?.tag}`)
+
+    let bot_settings = getBotSettings()
 
     //ensure user role exists
     let bot_user_role = getBotUserRoleFromGuild(client)
@@ -39,13 +46,35 @@ client.on('ready', async () => {
         bot_channel = await createBotChannel(client, bot_user_role)
     }
  
-    //fetch new data generate message
+    //create list of current events
+    let event_list = await scrapeAndParseEvents()
+    event_list.push(getSpiralAbyssEvent())
+
+    //init reminder toggle
+    let do_send_alert = false
+
+    //build embed list and check for alert time
+    let embeds = event_list.map(event => {
+        let embed = createEventMessage(event)
+        
+        if (timeForReminder(event, bot_settings.days_left_for_reminder)) {
+            do_send_alert = true
+        }
+        
+        return embed
+    })
 
     //clear channel
+    //the existing channel's position is kept. Then we delete the channel and recreate it at the same position
+    let position = bot_channel.position
+    await deleteBotChannel(client)
+    await createBotChannel(client, bot_user_role, position)
 
-    //send new message
+    //send new event embeds
+    await sendMessageToBotChannel(client, embeds)
     
-    //send alert to channel if date conitions are met
+    //send alert to channel if date conditions are met
+    await sendMessageToBotChannel(client, `<@&${bot_user_role.id}> An event is ending soon!`)
 })
 
 client.login(process.env.BOT_TOKEN)
