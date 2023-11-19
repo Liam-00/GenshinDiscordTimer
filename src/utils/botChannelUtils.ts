@@ -1,11 +1,11 @@
-import type {Client, Channel, Role, OverwriteResolvable} from 'discord.js'
+import type {Client, Channel, Role, OverwriteResolvable, TextChannel} from 'discord.js'
 import {ChannelType} from 'discord.js'
 
 import { getBotSettings } from './botSettingUtils.js'
 import { getGuild } from './botGuildUtils.js'
 
 
-const getBotChannelFromGuild = (client: Client): Channel | null => {
+const getBotChannelFromGuild = (client: Client): TextChannel | null => {
     let bot_settings = getBotSettings()
 
     let guild = getGuild(client)
@@ -16,7 +16,7 @@ const getBotChannelFromGuild = (client: Client): Channel | null => {
         channel => channel.type === ChannelType.GuildText
     )
 
-    let bot_channel = channels_text.find(channel => channel.name === bot_settings.bot_channel_name)
+    let bot_channel = channels_text.find(channel => channel.name === bot_settings.bot_channel_name) as TextChannel
     
     if (bot_channel) {
         return bot_channel
