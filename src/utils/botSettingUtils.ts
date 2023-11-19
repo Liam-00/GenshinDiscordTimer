@@ -6,8 +6,6 @@ import type { BotSettings } from '../types/BotSettings.js'
 const getBotSettings = () => { 
 
     let file_absolute_path = new URL('../../bot_config.json', import.meta.url)
-
-    console.log(file_absolute_path)
     
     let data = fs.readFileSync(file_absolute_path, {encoding: "utf-8"})
 
