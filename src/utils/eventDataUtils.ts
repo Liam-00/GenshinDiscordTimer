@@ -2,15 +2,15 @@ import { parse } from 'node-html-parser'
 import type { GenshinEvent } from '../types/GenshinEvent.js'
 import { timeRemaining } from './timeUtils.js'
 
-const scrapeAndParseEvents = async ():Promise<GenshinEvent[]> => {
-    let events:GenshinEvent[] = []
+const scrapeAndParseEvents = async () : Promise<GenshinEvent[]> => {
+    let events : GenshinEvent[] = []
     
     try {
         let resp:Response = await fetch('https://genshin-impact.fandom.com/wiki/Event')
         let resp_text:string = await resp.text()
         
         let page = parse(resp_text)
-        let events_tableHtml = page.querySelector("#Current").parentNode.nextElementSibling
+        let events_tableHtml = page.querySelector("#Current")!.parentNode.nextElementSibling
         
         //query for rows in first tbody, then process through children
         events_tableHtml.querySelectorAll("tbody tr").forEach(item => {
@@ -43,7 +43,7 @@ const scrapeAndParseEvents = async ():Promise<GenshinEvent[]> => {
         return events
 
     } catch (e) {
-        console.error(e)
+        throw(e)
     }
 }
 
