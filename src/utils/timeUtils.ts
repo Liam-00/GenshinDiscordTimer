@@ -1,16 +1,15 @@
 import type { GenshinEvent } from "../types/GenshinEvent.js";
 import type { TimeLeft } from "../types/TimeLeft.js"
+import { getBotSettings } from "./botSettingUtils.js";
 
 
-const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:number = 0):TimeLeft => {
-    let end: Date;
-    if (realtime) {
-        end = new Date(event.dateEnd)
-        end.setHours(4 + modifier,0,0,0)
+const timeRemaining = (event:GenshinEvent) : TimeLeft => {
+    let bot_settings = getBotSettings()
+    
+    let end: Date = new Date(event.dateEnd)
 
-        
-    } else {
-        end = new Date(event.dateEnd)// - (1000 * 60 * 60 * 24))
+    if (bot_settings.use_true_time) {
+        end.setHours(4 + bot_settings.time_offset,0,0,0)
     }
 
     let timeRemaining_ms:number = end.getTime() - Date.now()
