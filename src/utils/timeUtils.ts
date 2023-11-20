@@ -24,19 +24,23 @@ const timeRemaining = (event:GenshinEvent, realtime:boolean = false, modifier:nu
 }
 
 const timeForReminder = (event:GenshinEvent, daysLeftForReminder:number[]):boolean => {
-    let callReminder:boolean = daysLeftForReminder.reduce((status, val) => {
-        if (timeRemaining(event).days === val) {
-            return true
-        } else if (status === true) {
-            return true
-        } else {
-            return false
-        }
-    },
-    false
-    )
+    if (daysLeftForReminder.length > 0){
+        let callReminder:boolean = daysLeftForReminder.reduce(
+            (status, val) => {
+                if (timeRemaining(event).days === val) {
+                    return true
+                } else if (status === true) {
+                    return true
+                } else {
+                    return false
+                }
+            },
+            false
+        )
+        return callReminder
+    } 
 
-    return callReminder
+    return true
 }
 
 

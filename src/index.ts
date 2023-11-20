@@ -81,7 +81,9 @@ client.on('ready', async () => {
     await sendMessageToBotChannel(client, embeds)
     
     //send alert to channel if date conditions are met
-    await sendMessageToBotChannel(client, `<@&${bot_user_role.id}> An event is ending soon!`)
+    if (do_send_alert) {
+        await sendMessageToBotChannel(client, `<@&${bot_user_role.id}> An event is ending soon!`)
+    }
 })
 
 client.login(process.env.BOT_TOKEN)
