@@ -1,9 +1,7 @@
 import fs from 'fs'
 import type { BotSettings } from '../types/BotSettings.js'
 
-
-
-const getBotSettings = () => { 
+const _getBotSettings = () => { 
 
     let file_absolute_path = new URL('../../bot_config.json', import.meta.url)
     
@@ -17,8 +15,13 @@ const getBotSettings = () => {
         .replace(/[^a-z0-9_\s-]/g,"")
         .replace(/\s/g, "-")
 
-
     return settings_object
+}
+
+let BotSettings: BotSettings = _getBotSettings()
+
+const getBotSettings = (): BotSettings => {
+    return BotSettings
 }
 
 export {getBotSettings}
