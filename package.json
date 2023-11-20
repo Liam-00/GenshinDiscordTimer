@@ -10,12 +10,14 @@
   "author": "",
   "license": "CC-BY-NC-SA-4.0",
   "dependencies": {
+    "discord.js": "^14.14.1",
     "dotenv": "^16.0.3",
     "node-html-parser": "^6.1.5"
   },
   "devDependencies": {
     "@types/node": "^18.15.3",
-    "typescript": "^5.0.2"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   },
   "type": "module"
 }
