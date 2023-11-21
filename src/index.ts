@@ -14,9 +14,10 @@ import {Client, GatewayIntentBits} from 'discord.js'
 import dotenv from 'dotenv'
 let path_dotenv = new URL('../.env', import.meta.url)
 let dot = dotenv.config({
-    path: path_dotenv.pathname
+    path: fileURLToPath(path_dotenv)
 })
-
+console.log(process.env.BOT_TOKEN)
+console.log(path_dotenv)
 
 import { createBotUserRole, getBotUserRoleFromGuild } from './utils/botUserRoleUtils.js'
 import { createBotChannel, deleteBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils.js'
@@ -25,6 +26,7 @@ import { createEventMessage } from './discordMessageFormat.js'
 import { timeForReminder } from './utils/timeUtils.js'
 import { getBotSettings } from './utils/botSettingUtils.js'
 import { sendMessageToBotChannel } from './utils/botMessageUtils.js'
+import { fileURLToPath } from 'url'
 
 //create discordjs client
 let client = new Client({intents: GatewayIntentBits.Guilds})
