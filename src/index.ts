@@ -63,7 +63,7 @@ client.on('ready', async () => {
     let embeds = event_list.map(event => {
         let embed = createEventMessage(event)
         
-        if (timeForReminder(event, bot_settings.days_left_for_reminder)) {
+        if (timeForReminder(event)) {
             do_send_alert = true
         }
         
