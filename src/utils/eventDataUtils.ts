@@ -64,49 +64,74 @@ const scrapeAndParseEvents = async () : Promise<GenshinEvent[]> => {
     }
 }
 
-const getSpiralAbyssEvent = (realtime:boolean = false, modifier:number = 0):GenshinEvent => {
 
-    //setup info on current time and date
-    let time_now = new Date()
-    let time_currentDay = time_now.getDate()
-    let time_currentMonth = time_now.getMonth()
-    let time_currentYear = time_now.getFullYear()
-
-    //when current date is after 16th, the start date is set to first of next month
-    let passedMidMonth = time_currentDay >= 16 ? true : false
+const getSpiralAbyssEvent = () : GenshinEvent => {
+    let bot_settings = getBotSettings()
+   
+    let today = new Date()
+    today.setUTCHours(0,0,0,0)
     
-    let event_startMonthDate = new Date(
-        time_currentYear,
-        passedMidMonth ? time_currentMonth + 1 : time_currentMonth,
-        1
-    )
+    let year_end = today.getFullYear()
+    let month_end = today.getMonth()
+    let day_end
     
-    //mid month date will always be 16th of current month
-    let event_midMonthDate = new Date(
-        time_currentYear,
-        time_currentMonth,
-        16
-    )
+    let month_start
+    let day_start
 
-    //create event object
-    let event: GenshinEvent = {
-        name: "Spiral Abyss",
-        dateStart: 1,
-        dateEnd: 1,
-        type: ["In-Game", "Spiral Abyss"]
+    //the start and end days of spiral abyss will always be the 1st and 16th or 16th and 1st
+    //but if the bot is run on the 1st before server reset, the start/end will be 16th/1st
+    //and if run after the reset will be 1st/16th
+    if (today.getDate() >= 16) {
+        //when date is after 16th, the start must have been the 16 and the end must be the 1st of the next month
+        
+        month_end = today.getMonth() + 1
+        day_end = 1
+        
+        month_start = today.getMonth()
+        day_start = 16
+    
+    } else if (today.getDate() === 1) {
+        //when date is the 1st - before server reset - start must be 16th and end 1st
+        //when - after server reset - start must be 1st and end 16th
+        
+        //get current hour of day by subtracting today (which has been zeroed to UCT00:00:00 above ^) from right now(UCT) adjusted for server timezone
+        //this will be the time of day seen by the local server as ms into the day
+        let current_day_hour = (Date.now() + bot_settings.local_server_time_zone) - today.getTime()
+
+        //checking if time of day is less than the hour of the local server reset time represented as ms
+        if (current_day_hour < (bot_settings.local_sever_time_reset * (1000 * 60 * 60))) {
+            day_end = 1
+            
+            //start date becomes 16th of last month(the date constructor will handle rolling years up or down by month)
+            day_start = 16
+            month_start = today.getMonth() - 1
+        } else {
+            day_end = 16
+
+            day_start = 1
+            month_start = today.getMonth()
+        }
+    
+    } else {
+        //when after the 1st and before the 16th, dates work as expected
+        day_end = 16
+
+        day_start = 1
+        month_start = today.getMonth()
     }
 
-    //set dates on event
-    if (passedMidMonth) {
-        event.dateStart = event_midMonthDate.getTime()
-        event.dateEnd = event_startMonthDate.getTime()
-    } else {
-        event.dateStart = event_startMonthDate.getTime()
-        event.dateEnd = event_midMonthDate.getTime()
+    
+    let date_end = Date.UTC(year_end, month_end, day_end, 4 - bot_settings.local_server_time_zone)
+    let date_start = Date.UTC(today.getFullYear(), month_start, day_start, 4 - bot_settings.local_server_time_zone)
+
+    let event : GenshinEvent = {
+        name: "Spiral Abyss",
+        dateStart: date_start,
+        dateEnd: date_end,
+        type: ["Spiral Abyss"]
     }
 
     return event
 } 
-
 
 export { scrapeAndParseEvents, getSpiralAbyssEvent }
