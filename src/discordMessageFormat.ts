@@ -27,14 +27,22 @@ const createEventMessage = (event: GenshinEvent): APIEmbed => {
     let eventstart = new Date(event.dateStart).toDateString()
     let eventend = new Date(event.dateEnd).toDateString()
 
-    //get number of dashes ahead of and behind current day in timeine bar
-    let event_days_passed = Math.floor( (Date.now() - event.dateStart - (1000 * 60 * 60)) / (1000 * 60 * 60 * 24) )
-    let event_days_ahead = Math.floor( (event.dateEnd - (1000 * 60 * 60) - Date.now()) / (1000 * 60 * 60 * 24) )
     
+    //get number of dashes ahead of and behind current day in timeine bar
+    let start = new Date(event.dateStart)
+    start.setUTCHours(0,0,0,0)
+
+    let today = new Date(Date.now())
+    today.setUTCHours(0,0,0,0)
+
+    let event_days_passed = (today.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+    let event_days_ahead = event_time_remaining.days
+
+
     let event_timeline_bar = 
         '-'.repeat(event_days_passed) +
         '[-]' + 
-        '-'.repeat(event_days_ahead + 1)
+        '-'.repeat(event_days_ahead)
 
     let event_timeline = `\`\`\`${eventstart} ${event_timeline_bar} ${eventend}\`\`\``
     
