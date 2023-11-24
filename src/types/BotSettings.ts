@@ -5,4 +5,6 @@ export interface BotSettings {
     use_true_time: boolean;
     user_time_zone: number;
     server_time_zone: number;
+    local_server_time_zone: number;
+    local_sever_time_reset: number;
 }
