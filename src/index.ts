@@ -1,24 +1,10 @@
-//build list of current events
-//     let eventlist = await scrapeAndParseEvents()
-//     eventlist.push(getSpiralAbyssEvent())// import { messageWebhook } from "./messageWebhook.js";
-// import { scrapeAndParseEvents, getSpiralAbyssEvent } from "./utils/eventDataUtils.js";
-// import { timeRemaining, timeForReminder } from "./utils/timeUtils.js";
-// import { createEventMessage } from "./discordMessageFormat.js";
-
-// import type { GenshinEvent } from "./types/GenshinEvent.js";
-// import type{ ReminderConfig } from "./types/ReminderConfig.js";
-
-
-import {Client, GatewayIntentBits} from 'discord.js'
-
 import dotenv from 'dotenv'
 let path_dotenv = new URL('../.env', import.meta.url)
 let dot = dotenv.config({
     path: fileURLToPath(path_dotenv)
 })
-console.log(process.env.BOT_TOKEN)
-console.log(path_dotenv)
 
+import {Client, GatewayIntentBits} from 'discord.js'
 import { createBotUserRole, getBotUserRoleFromGuild } from './utils/botUserRoleUtils.js'
 import { createBotChannel, deleteBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils.js'
 import { getSpiralAbyssEvent, scrapeAndParseEvents } from './utils/eventDataUtils.js'
@@ -27,6 +13,7 @@ import { timeForReminder } from './utils/timeUtils.js'
 import { getBotSettings } from './utils/botSettingUtils.js'
 import { sendMessageToBotChannel } from './utils/botMessageUtils.js'
 import { fileURLToPath } from 'url'
+
 
 //create discordjs client
 let client = new Client({intents: GatewayIntentBits.Guilds})
@@ -89,36 +76,3 @@ client.on('ready', async () => {
 })
 
 client.login(process.env.BOT_TOKEN)
-
-
-
-// const msg = async () => {
-//     //config reminder days
-//     let reminderConf:ReminderConfig = {
-//         reminderDays: [5, 2, 0]
-//     }
-
-//     //build list of current events
-//     let eventlist = await scrapeAndParseEvents()
-//     eventlist.push(getSpiralAbyssEvent())
-
-//     //init blank message
-//     let embeds = []
-//     //init reminder check
-//     let performReminder: boolean = false;
-
-//     //build message and check if today is a reminder day for any events
-//     eventlist.forEach(event => {
-//         embeds.push(createEventMessage(event)) 
-//         if (timeForReminder(event, reminderConf)) {
-//             performReminder = true;
-//         }
-//     })
-
-//     //if reminder day, send message
-//     if (performReminder) {
-//         messageWebhook(embeds)
-//     }
-// }
-
-// msg()
