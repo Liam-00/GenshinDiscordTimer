@@ -35,9 +35,11 @@ const scrapeAndParseEvents = async () : Promise<GenshinEvent[]> => {
                 //regex match the dates from html attribute
                 let times = event_dateData.attributes['data-sort-value'].match(/\d{4}\-\d{2}\-\d{2} \d{2}:\d{2}:\d{2}/g)
 
-                //generate date values with timezone(announcements use CST+8 ?)
-                let server_timezone_modifier = bot_settings.server_time_zone > 0 ? ` +${bot_settings.server_time_zone}` : `${bot_settings.server_time_zone}`
+                //generate date values that represent when the local game server sees the time
+                let server_timezone_modifier = bot_settings.local_server_time_zone > 0 ? ` +${bot_settings.local_server_time_zone}` : `${bot_settings.local_server_time_zone}`
 
+
+                //NOTE: Date.parse returns a UTC epoch timestamp from a given datestring with a given timezone
                 let event_startDate:number = Date.parse(`${times![0]} ${server_timezone_modifier}`)
                 let event_endDate:number = Date.parse(`${times![1]} ${server_timezone_modifier}`)
                 
