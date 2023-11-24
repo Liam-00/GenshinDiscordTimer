@@ -6,14 +6,28 @@ import { getBotSettings } from "./botSettingUtils.js";
 const timeRemaining = (event:GenshinEvent) : TimeLeft => {
     let bot_settings = getBotSettings()
 
-    let timeRemaining_ms:number = event.dateEnd - Date.now()
-    let timeRemaining_days_exact:number = timeRemaining_ms / (1000 * 60 * 60 * 24)
-    let timeRemaining_days:number = Math.floor(timeRemaining_days_exact)
-    let timeRemaining_hrs:number = Math.floor((timeRemaining_days_exact - timeRemaining_days)  * 24)
+    //get current utc day and set hours to day start
+    let today = new Date()
+    today.setUTCHours(0,0,0,0)
+    
+    let event_time = event.dateEnd
+
+
+    //get exact ms of time remaining
+    let time_remaining_exact = event_time - today.getTime() + (bot_settings.user_time_zone * (1000 * 60 * 60))
+
+    //get days
+    let time_remaining_days = Math.floor( time_remaining_exact / (1000 * 60 * 60 * 24) )
+    //get hours
+    let time_remaining_hours = Math.floor( ( time_remaining_exact % (1000 * 60 * 60 * 24) ) / (1000 * 60 * 60) )
+    //get minutes
+    let time_remaining_minutes = Math.floor ( ( time_remaining_exact % (1000 * 60 * 60) ) / (1000 * 60) )
+
 
     return {
-        days: timeRemaining_days,
-        hours: timeRemaining_hrs
+        days: time_remaining_days,
+        hours: time_remaining_hours,
+        minutes: time_remaining_minutes
     }
 }
 
