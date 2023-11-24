@@ -2,7 +2,6 @@
     "bot_channel_name": "genshin_alerts",
     "bot_user_role_name": "Genshin Alert",
     "days_left_for_reminder": [7, 3, 1],
-    "use_true_time": true,
     "user_time_zone": 2,
     "server_time_zone": 8,
     "local_server_time_zone": 1,
