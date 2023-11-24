@@ -31,13 +31,16 @@ const timeRemaining = (event:GenshinEvent) : TimeLeft => {
     }
 }
 
-const timeForReminder = (event:GenshinEvent, daysLeftForReminder:number[]):boolean => {
+//FIX TO MATCH NEW TIME SYSTEM
+const timeForReminder = (event:GenshinEvent):boolean => {
+    let bot_settings = getBotSettings()
+    let daysLeftForReminder = [...bot_settings.days_left_for_reminder]
     if (daysLeftForReminder.length > 0){
         let callReminder:boolean = daysLeftForReminder.reduce(
-            (status, val) => {
+            (doCallReminder, val) => {
                 if (timeRemaining(event).days === val) {
                     return true
-                } else if (status === true) {
+                } else if (doCallReminder === true) {
                     return true
                 } else {
                     return false
