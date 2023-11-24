@@ -21,7 +21,17 @@ const timeRemaining = (event:GenshinEvent) : TimeLeft => {
     //get hours
     let time_remaining_hours = Math.floor( ( time_remaining_exact % (1000 * 60 * 60 * 24) ) / (1000 * 60 * 60) )
     //get minutes
-    let time_remaining_minutes = Math.floor ( ( time_remaining_exact % (1000 * 60 * 60) ) / (1000 * 60) )
+    let time_remaining_minutes = Math.ceil ( ( time_remaining_exact % (1000 * 60 * 60) ) / (1000 * 60) )
+
+    //catch minute rounding
+    if (time_remaining_minutes === 60) {
+        time_remaining_minutes = 0
+        time_remaining_hours += 1
+    }
+    if (time_remaining_hours === 24) {
+        time_remaining_hours = 0
+        time_remaining_days +=1
+    }
 
 
     return {
