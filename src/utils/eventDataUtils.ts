@@ -42,7 +42,7 @@ const scrapeAndParseEvents = async () : Promise<GenshinEvent[]> => {
                 //NOTE: Date.parse returns a UTC epoch timestamp from a given datestring with a given timezone
                 let event_startDate:number = Date.parse(`${times![0]} ${server_timezone_modifier}`)
                 let event_endDate:number = Date.parse(`${times![1]} ${server_timezone_modifier}`)
-                
+
                 let event: GenshinEvent = {
                     name: event_nameData,
                     dateStart: event_startDate,
@@ -132,6 +132,6 @@ const getSpiralAbyssEvent = () : GenshinEvent => {
     }
 
     return event
-} 
+}
 
 export { scrapeAndParseEvents, getSpiralAbyssEvent }
