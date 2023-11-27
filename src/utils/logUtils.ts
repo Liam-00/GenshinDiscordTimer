@@ -25,11 +25,11 @@ const writeLog = (msg: string) => {
 
     //output message
     switch (log_type) {
-        case "LOG:":
-            console.log(log_message)
+        case "LOG":
+            console.log(output_message)
             break;
-        case "ERROR:":
-            console.error(log_message)
+        case "ERROR":
+            console.error(output_message)
             break;
     }
 }
