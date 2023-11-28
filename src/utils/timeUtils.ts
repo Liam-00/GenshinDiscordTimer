@@ -41,7 +41,17 @@ const timeRemaining = (event:GenshinEvent) : TimeLeft => {
     }
 }
 
-//FIX TO MATCH NEW TIME SYSTEM
+const isEventOver = (event : GenshinEvent): boolean => {
+    let time_now = new Date()
+    let time_event_end = new Date(event.dateEnd)
+
+    if (time_event_end.getTime() - time_now.getTime() < 0) {
+        return true
+    }
+    
+    return false
+}
+
 const timeForReminder = (event:GenshinEvent):boolean => {
     let bot_settings = getBotSettings()
     let daysLeftForReminder = [...bot_settings.days_left_for_reminder]
@@ -65,4 +75,4 @@ const timeForReminder = (event:GenshinEvent):boolean => {
 }
 
 
-export { timeRemaining, timeForReminder }
+export { timeRemaining, timeForReminder, isEventOver }
