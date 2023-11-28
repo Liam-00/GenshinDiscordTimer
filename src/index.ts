@@ -9,7 +9,7 @@ import { createBotUserRole, getBotUserRoleFromGuild } from './utils/botUserRoleU
 import { createBotChannel, deleteBotChannel, getBotChannelFromGuild } from './utils/botChannelUtils.js'
 import { getSpiralAbyssEvent, scrapeAndParseEvents } from './utils/eventDataUtils.js'
 import { createEventMessage } from './discordMessageFormat.js'
-import { timeForReminder } from './utils/timeUtils.js'
+import { timeForReminder, timeRemaining } from './utils/timeUtils.js'
 import { getBotSettings } from './utils/botSettingUtils.js'
 import { sendMessageToBotChannel } from './utils/botMessageUtils.js'
 import { fileURLToPath } from 'url'
@@ -55,7 +55,14 @@ client.on('ready', async () => {
         let do_send_alert = false
 
         //build embed list and check for alert time
-        let embeds = event_list.map(event => {
+        let event_list_filtered = event_list.filter(event => {
+            if (timeRemaining(event).minutes < 0) {
+                return false
+            }
+            return true             
+        })
+        
+        let embeds = event_list_filtered.map(event => {
             let embed = createEventMessage(event)
 
             if (timeForReminder(event)) {
