@@ -3,7 +3,7 @@ import { APIEmbed, EmbedBuilder, type EmbedData } from "discord.js";
 import { timeRemaining } from "./utils/timeUtils.js";
 
 
-const createEventMessage = (event: GenshinEvent): APIEmbed => {
+const createEventMessage = (event: GenshinEvent) : APIEmbed => {
     let event_title_buffer = '\\_'.repeat(50)
     let event_title = `**${event.name}:**`
 

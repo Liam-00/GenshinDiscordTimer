@@ -3,7 +3,7 @@ import { getGuild } from "./botGuildUtils.js"
 
 import type {Client, Role} from 'discord.js'
  
-const getBotUserRoleFromGuild = (client: Client): Role | null => {
+const getBotUserRoleFromGuild = (client: Client) : Role | null => {
     let bot_settings = getBotSettings()
 
     let roles = getGuild(client).roles.cache

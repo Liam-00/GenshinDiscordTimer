@@ -3,7 +3,7 @@ import type { TimeLeft } from "../types/TimeLeft.js"
 import { getBotSettings } from "./botSettingUtils.js";
 
 
-const timeRemaining = (event:GenshinEvent) : TimeLeft => {
+const timeRemaining = (event: GenshinEvent) : TimeLeft => {
     let bot_settings = getBotSettings()
 
     //get current utc day and set hours to day start
@@ -33,7 +33,8 @@ const timeRemaining = (event:GenshinEvent) : TimeLeft => {
         time_remaining_days +=1
     }
 
-
+    //Time returned will count from midnight of current day, event can be finished and still show hours remaining
+    //use isEventOver() to check if event has finished
     return {
         days: time_remaining_days,
         hours: time_remaining_hours,
@@ -41,7 +42,7 @@ const timeRemaining = (event:GenshinEvent) : TimeLeft => {
     }
 }
 
-const isEventOver = (event : GenshinEvent): boolean => {
+const isEventOver = (event: GenshinEvent) : boolean => {
     let time_now = new Date()
     let time_event_end = new Date(event.dateEnd)
 
@@ -52,9 +53,12 @@ const isEventOver = (event : GenshinEvent): boolean => {
     return false
 }
 
-const timeForReminder = (event:GenshinEvent):boolean => {
+const timeForReminder = (event: GenshinEvent) : boolean => {
     let bot_settings = getBotSettings()
+    
     let daysLeftForReminder = [...bot_settings.days_left_for_reminder]
+    
+    //if there's a config option set, we reduce it to find if timeRemaining matches the config
     if (daysLeftForReminder.length > 0){
         let callReminder:boolean = daysLeftForReminder.reduce(
             (doCallReminder, val) => {

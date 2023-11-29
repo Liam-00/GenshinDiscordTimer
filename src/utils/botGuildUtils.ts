@@ -1,4 +1,4 @@
-import type {Client} from 'discord.js'
+import type { Client } from 'discord.js'
 
 const getGuild = (client: Client) => {
     let guild = client.guilds.cache.first()
@@ -8,4 +8,4 @@ const getGuild = (client: Client) => {
     return guild
 }
 
-export {getGuild}
+export { getGuild }

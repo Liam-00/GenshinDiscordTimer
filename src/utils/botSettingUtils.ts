@@ -20,7 +20,7 @@ const _getBotSettings = () => {
 
 let BotSettings: BotSettings = _getBotSettings()
 
-const getBotSettings = (): BotSettings => {
+const getBotSettings = () : BotSettings => {
     return BotSettings
 }
 

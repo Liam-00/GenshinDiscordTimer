@@ -3,13 +3,16 @@ import { type APIEmbed, type Client, type MessageCreateOptions } from "discord.j
 
 
 
-const sendMessageToBotChannel = async (client:Client, message: string | APIEmbed[]) => {
+const sendMessageToBotChannel = async (client: Client, message: string | APIEmbed[]) => {
     let channel = getBotChannelFromGuild(client)
+    
     if (!channel) {
         throw new Error("Cannot access channel")
     }
 
     let message_options: MessageCreateOptions
+    
+    //message should either be a text message or embed
     if (typeof message === 'string') {
         message_options = {content: message}
     } else {
@@ -19,4 +22,4 @@ const sendMessageToBotChannel = async (client:Client, message: string | APIEmbed
     await channel.send(message_options)
 }
 
-export {sendMessageToBotChannel}
+export { sendMessageToBotChannel }

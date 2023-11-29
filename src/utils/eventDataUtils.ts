@@ -1,6 +1,5 @@
 import { parse, type HTMLElement } from 'node-html-parser'
 import type { GenshinEvent, event_type } from '../types/GenshinEvent.js'
-import { timeRemaining } from './timeUtils.js'
 import { getBotSettings } from './botSettingUtils.js'
 
 const scrapeAndParseEvents = async () : Promise<GenshinEvent[]> => {
@@ -9,6 +8,7 @@ const scrapeAndParseEvents = async () : Promise<GenshinEvent[]> => {
     let bot_settings = getBotSettings()
 
     try {
+        //fetch and parse page
         let resp:Response = await fetch('https://genshin-impact.fandom.com/wiki/Event')
         let resp_text:string = await resp.text()
         
