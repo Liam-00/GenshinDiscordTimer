@@ -16,7 +16,7 @@ const scrapeAndParseEvents = async () : Promise<GenshinEvent[]> => {
         let events_tableHtml = page.querySelector("#Current")!.parentNode.nextElementSibling
         
         //query for rows in first tbody, then process through children
-        events_tableHtml.querySelectorAll("tbody tr").forEach(item => {
+        events_tableHtml!.querySelectorAll("tbody tr").forEach(item => {
             
             //get event type tags for in-game events
             let event_type_tags = item.childNodes[2].innerText.split(", ")
